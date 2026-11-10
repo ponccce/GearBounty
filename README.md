@@ -47,7 +47,7 @@ Player bounties for Paper servers: put money on someone's head, hunt them down, 
 
 ## How this was made
 
-GearBounty is developed by **GearBlock** with AI assistance (Claude). Every release is reviewed and tested by a person on a real server before it is published.
+GearBounty is developed by **GearBlock** with AI assistance. Every release is reviewed and tested by a person on a real server before it is published.
 
 Need a custom plugin, a 26.x migration or a server setup? Contact GearBlock (links coming soon).
 
