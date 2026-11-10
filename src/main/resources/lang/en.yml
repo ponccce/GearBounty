@@ -26,11 +26,13 @@ claimed-refund: "<gray>Your own <gold><amount></gold> on that player was returne
 claimed-broadcast: "<red><killer></red> <gray>claimed the</gray> <gold><amount></gold> <gray>bounty on</gray> <white><player></white><gray>!</gray>"
 same-ip: "<red>No bounty reward: you and <white><player></white> share the same IP."
 removed: "<green>Removed all bounties on <white><player></white> and refunded them."
+server-added: "<green>Server bounty of <gold><amount></gold> placed on <white><player></white>. Total bounty: <gold><total></gold>."
 reload: "<green>GearBounty reloaded."
 expired-refund: "<gray>Your bounty on <white><player></white> expired. <gold><amount></gold> was refunded."
 
 menu:
-  title: "<dark_gray>Bounty board - page <page>"
+  title: "<dark_gray>Bounty board"
+  title-paged: "<dark_gray>Bounty board (<page>/<pages>)"
   entry-name: "<!italic><red><player>"
   entry-lore:
     - "<!italic><gray>Bounty: <gold><amount>"

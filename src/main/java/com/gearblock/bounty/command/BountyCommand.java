@@ -51,6 +51,7 @@ public final class BountyCommand implements CommandExecutor, TabCompleter {
             case "check" -> check(sender, args);
             case "top" -> top(sender);
             case "remove" -> remove(sender, args);
+            case "add" -> add(sender, args);
             case "reload" -> {
                 if (!sender.hasPermission(ADMIN)) {
                     sender.sendMessage(msg.chat("no-permission"));
@@ -174,6 +175,42 @@ public final class BountyCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(msg.chat("removed", Placeholder.unparsed("player", args[1])));
     }
 
+    /** /bounty add <player> <amount>: a bounty paid by the server, for admins and the console. */
+    private void add(CommandSender sender, String[] args) {
+        Messages msg = plugin.messages();
+        if (!sender.hasPermission(ADMIN)) {
+            sender.sendMessage(msg.chat("no-permission"));
+            return;
+        }
+        if (args.length < 3) {
+            sender.sendMessage(msg.plain("usage"));
+            return;
+        }
+        OfflinePlayer target = findPlayer(args[1]);
+        if (target == null) {
+            sender.sendMessage(msg.chat("player-not-found", Placeholder.unparsed("player", args[1])));
+            return;
+        }
+        double amount = parseAmount(args[2]);
+        if (Double.isNaN(amount)) {
+            sender.sendMessage(msg.chat("invalid-amount", Placeholder.unparsed("amount", args[2])));
+            return;
+        }
+        String name = target.getName() != null ? target.getName() : args[1];
+        double total = plugin.service().placeFromServer(target, name, amount);
+        String formattedTotal = plugin.economy().format(total);
+        sender.sendMessage(msg.chat("server-added",
+                Placeholder.unparsed("player", name),
+                Placeholder.unparsed("amount", plugin.economy().format(amount)),
+                Placeholder.unparsed("total", formattedTotal)));
+        if (plugin.settings().broadcastOnPlace() && total >= plugin.settings().broadcastMinimum()) {
+            Bukkit.getServer().broadcast(msg.chat("placed-broadcast",
+                    Placeholder.unparsed("placer", "Server"),
+                    Placeholder.unparsed("player", name),
+                    Placeholder.unparsed("total", formattedTotal)));
+        }
+    }
+
     /** Online players first; otherwise only players the server has already seen. */
     private static OfflinePlayer findPlayer(String name) {
         Player online = Bukkit.getPlayerExact(name);
@@ -210,15 +247,15 @@ public final class BountyCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String @NotNull [] args) {
         if (args.length == 1) {
             Stream<String> subs = sender.hasPermission(ADMIN)
-                    ? Stream.of("set", "check", "top", "remove", "reload")
+                    ? Stream.of("set", "check", "top", "add", "remove", "reload")
                     : Stream.of("set", "check", "top");
             return filter(subs, args[0]);
         }
         String sub = args[0].toLowerCase(Locale.ROOT);
-        if (args.length == 2 && (sub.equals("set") || sub.equals("check") || sub.equals("remove"))) {
+        if (args.length == 2 && (sub.equals("set") || sub.equals("check") || sub.equals("remove") || sub.equals("add"))) {
             return filter(Bukkit.getOnlinePlayers().stream().map(Player::getName), args[1]);
         }
-        if (args.length == 3 && sub.equals("set")) {
+        if (args.length == 3 && (sub.equals("set") || sub.equals("add"))) {
             return filter(Stream.of("100", "1000", "10k"), args[2]);
         }
         return List.of();

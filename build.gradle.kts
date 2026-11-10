@@ -1,10 +1,10 @@
-plugins {
+﻿plugins {
     java
     id("xyz.jpenilla.run-paper") version "3.1.0"
 }
 
 group = "com.gearblock"
-version = "1.0.0"
+version = "1.1.0-dev"
 
 repositories {
     mavenCentral()

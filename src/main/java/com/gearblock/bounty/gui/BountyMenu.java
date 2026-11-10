@@ -37,8 +37,12 @@ public final class BountyMenu implements InventoryHolder {
         List<BountyService.Wanted> ranking = plugin.service().ranking();
         this.pageCount = Math.max(1, (ranking.size() + PER_PAGE - 1) / PER_PAGE);
         this.page = Math.max(0, Math.min(requestedPage, pageCount - 1));
-        this.inventory = Bukkit.createInventory(this, 54,
-                msg.plain("menu.title", Placeholder.unparsed("page", String.valueOf(page + 1))));
+        // One page: just the name. More pages: show where the player is, e.g. "Bounty board (2/3)".
+        this.inventory = Bukkit.createInventory(this, 54, pageCount == 1
+                ? msg.plain("menu.title")
+                : msg.plain("menu.title-paged",
+                        Placeholder.unparsed("page", String.valueOf(page + 1)),
+                        Placeholder.unparsed("pages", String.valueOf(pageCount))));
 
         int start = page * PER_PAGE;
         for (int i = 0; i < PER_PAGE && start + i < ranking.size(); i++) {

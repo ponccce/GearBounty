@@ -81,43 +81,70 @@ public final class BountyService {
             copy.add(bounty);
             return copy;
         });
-        storage.insert(bounty);
+        add(bounty);
         return PlaceResult.OK;
     }
 
     /**
-     * Pays the killer. Money the killer put on the victim is returned without tax, so placing a
-     * bounty and killing the target yourself never makes a profit.
+     * Admin/console bounty paid by the server (events, staff manhunts). No money is taken from
+     * anyone, and it is never refunded, since nobody paid for it.
      */
+    public double placeFromServer(OfflinePlayer target, String targetName, double amount) {
+        add(new Bounty(nextId.getAndIncrement(), target.getUniqueId(), targetName,
+                Bounty.SERVER, Bounty.SERVER_NAME, amount, System.currentTimeMillis()));
+        return total(target.getUniqueId());
+    }
+
+    private void add(Bounty bounty) {
+        byTarget.compute(bounty.target(), (k, list) -> {
+            List<Bounty> copy = list == null ? new ArrayList<>() : new ArrayList<>(list);
+            copy.add(bounty);
+            return copy;
+        });
+        storage.insert(bounty);
+    }
+
+    /** Pays the killer the result of {@link #split}. */
     public Claim claim(Player killer, Player victim) {
         List<Bounty> bounties = byTarget.remove(victim.getUniqueId());
         if (bounties == null || bounties.isEmpty()) {
             return null;
         }
+        Claim claim = split(bounties, killer.getUniqueId(), plugin.settings().taxPercent());
+        if (claim.reward() + claim.refunded() > 0) {
+            economy.deposit(killer, claim.reward() + claim.refunded());
+        }
+        storage.delete(bounties);
+        return claim;
+    }
+
+    /**
+     * Pure money math, kept separate so it can be unit tested. Money the killer put on the victim
+     * comes back untaxed, so placing a bounty and killing the target yourself never makes a profit.
+     * Everyone else's contributions (including server bounties) are paid minus the tax.
+     */
+    public static Claim split(List<Bounty> bounties, UUID killer, double taxPercent) {
         double own = 0;
         double others = 0;
         for (Bounty b : bounties) {
-            if (b.placer().equals(killer.getUniqueId())) {
+            if (b.placer().equals(killer)) {
                 own += b.amount();
             } else {
                 others += b.amount();
             }
         }
-        double reward = others * (1 - plugin.settings().taxPercent() / 100.0);
-        if (reward + own > 0) {
-            economy.deposit(killer, reward + own);
-        }
-        storage.delete(bounties);
+        double reward = Math.round(others * (1 - taxPercent / 100.0) * 100) / 100.0;
         return new Claim(reward, own);
     }
 
-    /** Admin removal: every contribution goes back to whoever placed it. */
+    /** Admin removal: every contribution goes back to whoever placed it (server bounties are just dropped). */
     public boolean removeAndRefund(UUID target) {
         List<Bounty> bounties = byTarget.remove(target);
         if (bounties == null || bounties.isEmpty()) {
             return false;
         }
-        bounties.forEach(b -> economy.deposit(Bukkit.getOfflinePlayer(b.placer()), b.amount()));
+        bounties.stream().filter(b -> !b.fromServer())
+                .forEach(b -> economy.deposit(Bukkit.getOfflinePlayer(b.placer()), b.amount()));
         storage.delete(bounties);
         return true;
     }
@@ -145,6 +172,9 @@ public final class BountyService {
         storage.delete(expired);
         Bukkit.getGlobalRegionScheduler().execute(plugin, () -> {
             for (Bounty b : expired) {
+                if (b.fromServer()) {
+                    continue;   // nobody paid for a server bounty, so there is nothing to refund
+                }
                 OfflinePlayer placer = Bukkit.getOfflinePlayer(b.placer());
                 economy.deposit(placer, b.amount());
                 Player online = placer.getPlayer();

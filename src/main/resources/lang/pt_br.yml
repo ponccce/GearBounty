@@ -26,11 +26,13 @@ claimed-refund: "<gray>Os seus <gold><amount></gold> nesse jogador foram devolvi
 claimed-broadcast: "<red><killer></red> <gray>pegou a recompensa de</gray> <gold><amount></gold> <gray>por</gray> <white><player></white><gray>!</gray>"
 same-ip: "<red>Sem recompensa: você e <white><player></white> usam o mesmo IP."
 removed: "<green>Todas as recompensas de <white><player></white> foram removidas e devolvidas."
+server-added: "<green>O servidor colocou <gold><amount></gold> na cabeça de <white><player></white>. Total: <gold><total></gold>."
 reload: "<green>GearBounty recarregado."
 expired-refund: "<gray>A sua recompensa por <white><player></white> expirou. <gold><amount></gold> foi devolvido."
 
 menu:
-  title: "<dark_gray>Recompensas - página <page>"
+  title: "<dark_gray>Quadro de recompensas"
+  title-paged: "<dark_gray>Quadro de recompensas (<page>/<pages>)"
   entry-name: "<!italic><red><player>"
   entry-lore:
     - "<!italic><gray>Recompensa: <gold><amount>"
