@@ -1,0 +1,43 @@
+# GearBounty messages (MiniMessage format: https://docs.advntr.dev/minimessage/format)
+prefix: "<dark_gray>[<gold>Bounty</gold>]</dark_gray> "
+
+usage: |-
+  <gold>/bounty</gold> <gray>- open the bounty board</gray>
+  <gold>/bounty set <player> <amount></gold> <gray>- place a bounty</gray>
+  <gold>/bounty check [player]</gold> <gray>- see a player's bounty</gray>
+  <gold>/bounty top</gold> <gray>- most wanted players</gray>
+no-permission: "<red>You don't have permission to do that."
+player-only: "<red>Only players can do that."
+player-not-found: "<red>Player <white><player></white> was never seen on this server."
+invalid-amount: "<red><white><amount></white> is not a valid amount."
+self-bounty: "<red>You can't place a bounty on yourself."
+amount-too-low: "<red>The minimum bounty is <white><min></white>."
+amount-too-high: "<red>The maximum bounty is <white><max></white>."
+not-enough-money: "<red>You don't have <white><amount></white>."
+placed: "<green>You placed <gold><amount></gold> on <white><player></white>. Total bounty: <gold><total></gold>."
+placed-broadcast: "<white><placer></white> <gray>raised the bounty on</gray> <red><player></red> <gray>to</gray> <gold><total></gold><gray>!</gray>"
+check-none: "<gray><player> has no bounty."
+check: "<white><player></white> <gray>is wanted for</gray> <gold><total></gold> <gray>(<count> contributions).</gray>"
+top-header: "<gold><bold>Most wanted</bold></gold>"
+top-line: "<gray>#<rank></gray> <white><player></white> <dark_gray>-</dark_gray> <gold><amount></gold>"
+top-empty: "<gray>Nobody has a bounty right now."
+claimed: "<green>You claimed the bounty on <white><player></white> and earned <gold><amount></gold>!"
+claimed-refund: "<gray>Your own <gold><amount></gold> on that player was returned to you."
+claimed-broadcast: "<red><killer></red> <gray>claimed the</gray> <gold><amount></gold> <gray>bounty on</gray> <white><player></white><gray>!</gray>"
+same-ip: "<red>No bounty reward: you and <white><player></white> share the same IP."
+removed: "<green>Removed all bounties on <white><player></white> and refunded them."
+reload: "<green>GearBounty reloaded."
+expired-refund: "<gray>Your bounty on <white><player></white> expired. <gold><amount></gold> was refunded."
+
+menu:
+  title: "<dark_gray>Bounty board - page <page>"
+  entry-name: "<!italic><red><player>"
+  entry-lore:
+    - "<!italic><gray>Bounty: <gold><amount>"
+    - "<!italic><gray>Contributions: <white><count>"
+  previous: "<!italic><yellow>Previous page"
+  next: "<!italic><yellow>Next page"
+  info-name: "<!italic><gold>Bounty board"
+  info-lore:
+    - "<!italic><gray>Wanted players: <white><targets>"
+    - "<!italic><gray>Place one: <gold>/bounty set <player> <amount>"

@@ -1,0 +1,43 @@
+# Mensagens do GearBounty (formato MiniMessage: https://docs.advntr.dev/minimessage/format)
+prefix: "<dark_gray>[<gold>Recompensa</gold>]</dark_gray> "
+
+usage: |-
+  <gold>/bounty</gold> <gray>- abre o quadro de recompensas</gray>
+  <gold>/bounty set <jogador> <valor></gold> <gray>- coloca uma recompensa</gray>
+  <gold>/bounty check [jogador]</gold> <gray>- vê a recompensa de um jogador</gray>
+  <gold>/bounty top</gold> <gray>- os mais procurados</gray>
+no-permission: "<red>Você não tem permissão para isso."
+player-only: "<red>Só jogadores podem fazer isso."
+player-not-found: "<red>O jogador <white><player></white> nunca entrou neste servidor."
+invalid-amount: "<red><white><amount></white> não é um valor válido."
+self-bounty: "<red>Você não pode colocar recompensa em si mesmo."
+amount-too-low: "<red>A recompensa mínima é <white><min></white>."
+amount-too-high: "<red>A recompensa máxima é <white><max></white>."
+not-enough-money: "<red>Você não tem <white><amount></white>."
+placed: "<green>Você colocou <gold><amount></gold> na cabeça de <white><player></white>. Total: <gold><total></gold>."
+placed-broadcast: "<white><placer></white> <gray>aumentou a recompensa por</gray> <red><player></red> <gray>para</gray> <gold><total></gold><gray>!</gray>"
+check-none: "<gray><player> não tem recompensa."
+check: "<white><player></white> <gray>vale</gray> <gold><total></gold> <gray>(<count> contribuições).</gray>"
+top-header: "<gold><bold>Mais procurados</bold></gold>"
+top-line: "<gray>#<rank></gray> <white><player></white> <dark_gray>-</dark_gray> <gold><amount></gold>"
+top-empty: "<gray>Ninguém tem recompensa agora."
+claimed: "<green>Você pegou a recompensa por <white><player></white> e ganhou <gold><amount></gold>!"
+claimed-refund: "<gray>Os seus <gold><amount></gold> nesse jogador foram devolvidos."
+claimed-broadcast: "<red><killer></red> <gray>pegou a recompensa de</gray> <gold><amount></gold> <gray>por</gray> <white><player></white><gray>!</gray>"
+same-ip: "<red>Sem recompensa: você e <white><player></white> usam o mesmo IP."
+removed: "<green>Todas as recompensas de <white><player></white> foram removidas e devolvidas."
+reload: "<green>GearBounty recarregado."
+expired-refund: "<gray>A sua recompensa por <white><player></white> expirou. <gold><amount></gold> foi devolvido."
+
+menu:
+  title: "<dark_gray>Recompensas - página <page>"
+  entry-name: "<!italic><red><player>"
+  entry-lore:
+    - "<!italic><gray>Recompensa: <gold><amount>"
+    - "<!italic><gray>Contribuições: <white><count>"
+  previous: "<!italic><yellow>Página anterior"
+  next: "<!italic><yellow>Próxima página"
+  info-name: "<!italic><gold>Quadro de recompensas"
+  info-lore:
+    - "<!italic><gray>Jogadores procurados: <white><targets>"
+    - "<!italic><gray>Coloque uma: <gold>/bounty set <jogador> <valor>"

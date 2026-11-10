@@ -1,0 +1,24 @@
+name: GearBounty
+version: '${version}'
+main: com.gearblock.bounty.GearBountyPlugin
+api-version: '1.21'
+folia-supported: true
+authors: [GearBlock]
+description: Player bounties with a GUI, anti-abuse rules and PlaceholderAPI support.
+website: https://github.com/GearBlock
+depend: [Vault]
+softdepend: [PlaceholderAPI, Essentials, CMI]
+
+commands:
+  bounty:
+    description: Open the bounty board or manage bounties.
+    usage: /bounty [set|check|top|remove|reload]
+    aliases: [bounties]
+
+permissions:
+  gearbounty.use:
+    description: Use /bounty, place and check bounties.
+    default: true
+  gearbounty.admin:
+    description: Remove bounties and reload the plugin.
+    default: op

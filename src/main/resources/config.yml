@@ -1,0 +1,27 @@
+# GearBounty configuration
+# Language file inside plugins/GearBounty/lang/ (en, pt_br)
+language: en
+
+bounty:
+  # Smallest and largest amount a player can place at once.
+  min-amount: 100.0
+  max-amount: 1000000.0
+  # Percentage taken from the reward when someone claims a bounty (0 = no tax).
+  tax-percent: 5.0
+  # Days until an unclaimed bounty expires and is refunded to whoever placed it (0 = never).
+  expiry-days: 7
+  # How often (in minutes) expired bounties are checked.
+  expiry-check-minutes: 10
+  # How many players /bounty top shows.
+  top-size: 10
+
+anti-abuse:
+  # No reward when the killer and the victim share the same IP (alt accounts).
+  same-ip-protection: true
+
+broadcast:
+  # Announce to the whole server when a bounty is placed or claimed.
+  on-place: true
+  on-claim: true
+  # Only announce bounties of at least this total.
+  minimum-total: 1000.0
